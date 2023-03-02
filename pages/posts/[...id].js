@@ -10,6 +10,9 @@ export default function Post({ postData }) {
   if ( !postData ) {
     return <div>loading...</div>
   }
+  if ( postData === 'not md' ) {
+    return <div>not md</div>
+  }
   return (
     <Layout>
       <Head>

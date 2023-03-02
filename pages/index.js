@@ -35,7 +35,7 @@ export default function Home({ allPostsData }) {
 export async function getStaticProps() {
   // https://github.com/vercel/next.js/issues/11993
   // 哦豁...不管吗。。
-  const allPostsData = JSON.parse(JSON.stringify(getSortedPostsData()))
+  let allPostsData = JSON.parse(JSON.stringify(getSortedPostsData()))
   return {
     props: {
       allPostsData

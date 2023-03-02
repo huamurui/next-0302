@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+    }
+    main {
+      display: grid;
+      height: 110vh;
+      grid-template-columns: 1fr 2fr 1fr;
+      grid-template-rows: 1fr;
+      grid-template-areas: "sidebar article aside";
+      gap: 1rem;
+    }
+    sidebar {
+      grid-area: sidebar;
+      background-color: #ccc;
+      padding: 1rem;
+    }
+    article {
+      grid-area: article;
+      background-color: #ccc;
+      padding: 1rem;
+    }
+    aside {
+      grid-area: aside;
+      background-color: #ccc;
+      padding: 1rem;
+    }
+
+    @media screen and (max-width: 500px){
+      main {
+        grid-template-columns: 1fr;
+        grid-template-rows: 1fr 2fr 1fr;
+        grid-template-areas: "sidebar" "article" "aside";
+      }
+      sidebar {
+        text-align: center;
+      }
+    }
+    @media screen and (min-width: 500px) and (max-width: 800px){
+      main {
+        grid-template-columns: 1fr 2fr;
+        grid-template-rows: 1fr 1fr;
+        grid-template-areas: "sidebar article"
+                             "aside article";
+      }
+    }
+
+    ::-webkit-scrollbar {
+      width: 0.5rem;
+    }
+    ::-webkit-scrollbar-track {
+      background: #ccc;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #888;
+      border-radius: 9999px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #555;
+    }
+  </style>
+</head>
+<body>
+  <input type="checkbox" id="dark" 
+  onclick="dark = !dark; 
+            if (dark) 
+            {
+              document.body.style.backgroundColor = '#333'; 
+              document.body.style.color = '#fff'; 
+            } 
+            else 
+            {
+              document.body.style.backgroundColor = '#fff'; 
+              document.body.style.color = '#000'; 
+            }">
+  <label for="dark">Dark Mode</label>
+  <main>
+    <sidebar>
+      <h1>My Website</h1>
+      <p>My name is John Doe</p>
+      <p>I am a web developer</p>
+      <p>I am 30 years old</p>
+    </sidebar>
+    <article>
+      <br>
+      <h1>My First Article</h1>
+      <br>
+      <p>这个文件里我把简单的黑白模式切换，css3 的 grid 和利用 media 的响应式布局，还有滚动条美化这些东西都弄了弄。</p>
+      <br>
+      <p>当然我知道如果要在有规模的项目里做这些会有一系列新的问题...</p>
+      <br>
+      <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quod.</p>
+      <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quod.</p>
+      <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quod.</p>
+    </article>
+    <aside>
+      <h1>My First Aside</h1>
+      <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quod.</p>
+      <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quod.</p>
+      <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quod.</p>
+    </aside>
+  </main>
+  <script>
+    let dark = false;
+
+  </script>
+</body>
+</html>

@@ -5,37 +5,25 @@ import { remark } from 'remark'
 import html from 'remark-html'
 
 const postsDirectory = path.join(process.cwd(), 'posts')
-// Define a function that takes a folder path as an argument
-function getAllFilePaths(folder) {
-  // Initialize an empty array to store the relative paths
-  let relativePaths = [];
-  // Read the contents of the folder using fs.readdirSync()
+function getAllFilePaths(folder: string) {
+  let relativePaths:string[] = [];
   let items = fs.readdirSync(folder);
-  // Loop through each item in the folder
   for (let item of items) {
-    // Join the folder path and the item name to get the full path
     let fullPath = path.join(folder, item);
-    // Check if the item is a file or a directory using fs.statSync()
     let stat = fs.statSync(fullPath);
     if (stat.isFile()) {
-      // If it is a file, use path.relative() to get its relative path from current working directory
       let relativePath = path.relative(process.cwd(), fullPath);
-      // Push its relative path to the array
       relativePaths.push(relativePath);
     } else if (stat.isDirectory()) {
-      // If it is a directory, call the function recursively with its full path
       relativePaths = relativePaths.concat(getAllFilePaths(fullPath));
     }
   }
-  // Return the array of relative paths
   return relativePaths;
 }
 
 export function getSortedPostsData() {
   // Get file names under /posts
-  // i hope a function to read all the files in the directory recursively
 
-  // const fileNames = fs.readdirSync(postsDirectory)
   const fileNames = getAllFilePaths(postsDirectory)
   const allPostsData = fileNames.filter(
     (it) => it.endsWith('.md')
@@ -44,7 +32,6 @@ export function getSortedPostsData() {
     const id = fileName.replace(/\\/g, '/')
 
     // Read markdown file as string
-    // const fullPath = path.join(postsDirectory, fileName)
     const fileContents = fs.readFileSync(fileName, 'utf8')
 
     // Use gray-matter to parse the post metadata section
@@ -53,7 +40,7 @@ export function getSortedPostsData() {
     // Combine the data with the id
     return {
       id,
-      ...matterResult.data
+      ...(matterResult.data as { date: string; title: string })
     }
   })
   // Sort posts by date
@@ -66,23 +53,25 @@ export function getSortedPostsData() {
   })
 }
 
-// 我们确实只希望渲染 md 文件到页面上，但是依旧想要把图片文件也读取出来。
+// 我们确实只希望渲染 md 文件到页面上展示，但是也是想要把图片文件也读取出来的。。。
 
 export function getAllPostIds() {
   const fileNames = getAllFilePaths(postsDirectory)
   return fileNames.map(fileName => {
     // 转成数组并去掉第一个元素 'posts'
-    let id = fileName.replace(/\\/g, '/').split('/').slice(1)
+    let id :string[] = fileName.replace(/\\/g, '/').split('/').slice(1)
     return {
       params: {
-        id: id
+        id: id as string[]
       }
     }
   })
 }
 
-export async function getPostData(id) {
+export async function getPostData(id: string) {
   if(!id.endsWith('.md')) {
+
+    // nmmd...不休不行了。但是还是先不管了。
     return 'not md'
   }
 
@@ -101,6 +90,6 @@ export async function getPostData(id) {
   return {
     id,
     contentHtml,
-    ...matterResult.data
+    ...(matterResult.data as { date: string; title: string })
   }
 }

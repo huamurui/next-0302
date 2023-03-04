@@ -68,11 +68,14 @@ export function getAllPostIds() {
   })
 }
 
-export async function getPostData(id: string) {
+export async function getPostData(id :string) {
   if(!id.endsWith('.md')) {
+    // 这里是图片一类的文件，也需要渲染成一个页面...用以引入
 
-    // nmmd...不休不行了。但是还是先不管了。
-    return 'not md'
+    return {
+      type: id.replace(/\\/g, '/').split('.').pop(),
+      id,
+    }
   }
 
   const fullPath = path.join(postsDirectory, `${id}`)
@@ -88,6 +91,7 @@ export async function getPostData(id: string) {
   const contentHtml = processedContent.toString()
   // Combine the data with the id and contentHtml
   return {
+    type: 'md',
     id,
     contentHtml,
     ...(matterResult.data as { date: string; title: string })

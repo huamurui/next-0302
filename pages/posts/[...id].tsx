@@ -7,10 +7,11 @@ import { GetStaticProps, GetStaticPaths } from 'next'
 
 export default function Post({ postData }:{
   postData: {
+    type: string,
     title: string,
     date: string,
     contentHtml: string
-  } | string
+  }
 }) {
   // https://github.com/vercel/next.js/discussions/15944
   // 如果是刷新或者直接访问，那么就会出现，postData是undefined的情况
@@ -18,10 +19,10 @@ export default function Post({ postData }:{
   if ( !postData ) {
     return <div>loading...</div>
   }
-  if ( postData === 'not md' ) {
+  if ( postData.type != 'md' ) {
     return <div>not md</div>
   }
-  if ( postData !== 'not md' && typeof postData !== 'string' ) {
+  if ( postData.type === 'md' ) {
   return (
     <Layout>
       <Head>
@@ -51,7 +52,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
 }
 
 export const getStaticProps: GetStaticProps = async ({ params}) => {
-  let postData = await getPostData(params?.id?.join('/') as string)
+  let postData = await getPostData((params?.id as string[]).join('/') as string)
   postData = JSON.parse(JSON.stringify(postData))
   return {
     props: {

@@ -34,7 +34,9 @@ export default function Home({
       <section className={`${utilStyles.headingMd} ${utilStyles.padding1px}`}>
         <h2 className={utilStyles.headingLg}>Blog</h2>
         <ul className={utilStyles.list}>
-          {allPostsData.map(({ id, date, title,tag }) => (
+          {allPostsData.filter(
+            (item) => item.tag?.includes('hurt')
+          ).map(({ id, date, title,tag }) => (
             <li className={utilStyles.listItem} key={id}>
               <Link href={`${id}`}>{title}</Link>
               <br />

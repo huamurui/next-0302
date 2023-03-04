@@ -21,6 +21,7 @@ export default function Post({ postData }:{
     return <div>loading...</div>
   }
   if ( postData.type != 'md' ) {
+    // 我仍然不知道怎么处理图片...
     return <img src={postData.id} alt={postData.id}/>
   }
   if ( postData.type === 'md' ) {

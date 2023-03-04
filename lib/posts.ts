@@ -40,7 +40,7 @@ export function getSortedPostsData() {
     // Combine the data with the id
     return {
       id,
-      ...(matterResult.data as { date: string; title: string })
+      ...(matterResult.data as { date: string; title: string ; tag: string[]})
     }
   })
   // Sort posts by date
@@ -70,11 +70,11 @@ export function getAllPostIds() {
 
 export async function getPostData(id :string) {
   if(!id.endsWith('.md')) {
-    // 这里是图片一类的文件，也需要渲染成一个页面...用以引入
-
+    
+    // 这里是图片一类的文件，也需要渲染成一个页面...用以引入...但是怎么处理啊...我不道啊。。
     return {
-      type: id.replace(/\\/g, '/').split('.').pop(),
       id,
+      type: id.replace(/\\/g, '/').split('.').pop(),
     }
   }
 
@@ -91,9 +91,23 @@ export async function getPostData(id :string) {
   const contentHtml = processedContent.toString()
   // Combine the data with the id and contentHtml
   return {
-    type: 'md',
     id,
+    type: 'md',
     contentHtml,
     ...(matterResult.data as { date: string; title: string })
   }
+}
+
+
+// get all tags 
+export function getAllTags() {
+  const allPostsData = getSortedPostsData()
+  let tags:string[] = []
+  allPostsData.forEach((post) => {
+    if(post.tag && post.tag.length > 0) {
+      tags = tags.concat(post.tag)
+    }
+  })
+  tags = [...new Set(tags)]
+  return tags
 }

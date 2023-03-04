@@ -1,5 +1,7 @@
 {
   "compilerOptions": {
+    // to deal a ...rest parameter using problem
+    "downlevelIteration": true,
     "lib": [
       "dom",
       "dom.iterable",

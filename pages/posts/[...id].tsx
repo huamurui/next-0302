@@ -7,6 +7,7 @@ import { GetStaticProps, GetStaticPaths } from 'next'
 
 export default function Post({ postData }:{
   postData: {
+    id: string,
     type: string,
     title: string,
     date: string,
@@ -20,7 +21,7 @@ export default function Post({ postData }:{
     return <div>loading...</div>
   }
   if ( postData.type != 'md' ) {
-    return <div>not md</div>
+    return <img src={postData.id} alt={postData.id}/>
   }
   if ( postData.type === 'md' ) {
   return (

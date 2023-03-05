@@ -1,27 +1,27 @@
 import styles from './tag.module.css'
+import { useState } from 'react'
 
+
+// const [choice, setChoice] = useState([])
+// why useState is undefined out of the component?
+
+export const getChoice = () => {
+  return []
+}
 
 export default function Tag({ tags }: { tags: string[] }){
-
-  let choice:string[] = []
-  if(!(typeof window === "undefined"))
-    if(localStorage.getItem('choice'))
-      choice = localStorage.getItem('choice')?.split(',') as string[]
-    else if(!localStorage.getItem('choice'))
-      localStorage.setItem('choice', '')
-
-  // setTagActive() // 想要的是...刷新后，还是上次的选择，然鹅，怎么在木的点击事件的情况下去拿到 dom 呢。。该死的 ssr。怎么这点东西都弄不成啊...这该死的。。
+  // const [choice, setChoice] = useState([])
   function setTagActive(e:React.MouseEvent<HTMLDivElement, MouseEvent>){
-    let target = e.target as HTMLSpanElement
-    if ( target.tagName === 'SPAN' ) {
-      if ( target.classList.contains(styles.active) ) {
+    const target = e.target as HTMLSpanElement
+    const tag = target.textContent
+    if(target.classList.contains(styles.item)){
+      if (target.classList.contains(styles.active) ) {
         target.classList.remove(styles.active)
-        choice = choice.filter((item) => item !== target.innerText)
+        // setChoice(choice.filter(item => item !== tag))
       } else {
         target.classList.add(styles.active)
-        choice.push(target.innerText)
+        // setChoice([...choice, tag])
       }
-      localStorage.setItem('choice', choice.join(','))
     }
   }
 
